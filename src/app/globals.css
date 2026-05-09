@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans, ui-sans-serif), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono, ui-monospace), monospace;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #09090b;
+    color: #fafafa;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* Mount-time reveal — opacity + small upward drift. Pair with
+     `style={{ animationDelay: '...ms' }}` for staggered cascades. */
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .animate-reveal-up {
+    opacity: 0;
+    animation: reveal-up 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Slow breathing for status dots / brand marks. Perpetual but gentle —
+     sits at MOTION_INTENSITY 6 without becoming distracting. */
+  @keyframes breathe {
+    0%, 100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+
+  .animate-breathe {
+    animation: breathe 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-reveal-up {
+      animation: none;
+      opacity: 1;
+    }
+    .animate-breathe {
+      animation: none;
+    }
+  }
+}

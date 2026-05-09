@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "replicate": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "replicate-mcp"],
+      "env": {}
+    }
+  }
+}

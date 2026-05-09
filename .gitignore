@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+
+# env files — never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Claude Code local settings (contains API tokens)
+.claude/settings.local.json
+
+# misc
+.DS_Store
+*.pem
+.vercel
+
+.claude/
+.claude-verify/
+.audit/
+.tmp/
+docs/
+.playwright-mcp/
+
+.env.local
+.env
+
+ideas.md
+
+node_modules/
