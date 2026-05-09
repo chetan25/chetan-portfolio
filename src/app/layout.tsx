@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Nav from '@/components/ui/Nav'
+import ChatLauncher from '@/components/chat/ChatLauncher'
 import './globals.css'
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Nav />
         {children}
+        <ChatLauncher />
       </body>
     </html>
   )

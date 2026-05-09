@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "pnpm build:chat-context",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:chat-context": "tsx --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/build-chat-context.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.1",
     "@chenglou/pretext": "^0.0.6",
     "@react-three/drei": "^10",
     "@react-three/fiber": "^9",
@@ -20,6 +23,8 @@
     "postprocessing": "^6",
     "react": "^19",
     "react-dom": "^19",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "three": "^0.177",
     "zustand": "^5"
   },
@@ -32,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "^15",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

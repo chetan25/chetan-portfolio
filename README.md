@@ -28,6 +28,7 @@ A personal portfolio for a Senior Software Engineer, built as an interactive 3D 
 | `/`         | Server shell + client island        | Kinetic-name hero. The name "Chetan Dasauni" is rendered as a Three.js point-cloud echo, scrambled in then resolved. DOM headline is layout-only — the 3D cloud carries the visual. |
 | `/journey`  | Client                              | An immersive 3D corridor walk through the chapters of a career. Character animation, milestone signs alternating left/right, typewriter description cards, end-of-journey CTA.      |
 | `/projects` | Server (data fetch) + client island | Live GitHub archive. Server Component fetches public repos, Client Component renders a searchable, filterable list. Shows month + year.                                             |
+| `/resume`   | Server                              | Editorial render of `src/data/resume.json` — header, summary, experience, education, skills. Each entry has a stable anchor ID (e.g. `#experience-scribd`) used as a citation deep-link target by the chatbot. `.docx` download still available. |
 | `/contact`  | Server                              | Editorial channel list (email, GitHub, LinkedIn, resume download).                                                                                                                  |
 
 ---

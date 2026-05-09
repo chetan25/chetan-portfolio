@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "name": "Chetan Dasauni",
+    "title": "Senior Software Engineer",
+    "location": "Vancouver, BC, Canada",
+    "email": "chetandasauni25@gmail.com",
+    "githubUrl": "https://github.com/chetan25",
+    "linkedinUrl": "https://www.linkedin.com/in/chetan-dasauni/",
+    "docxHref": "/Chetan_Dasauni_Resume_2026.docx"
+  },
+  "summary": "Senior software engineer based in Vancouver, BC, with 10+ years shipping scalable, accessible web platforms. I work across React, TypeScript, Node, Ruby on Rails, and Python, with deep focus on frontend architecture, performance, and AI-assisted development workflows.",
+  "experience": [
+    {
+      "id": "experience-scribd",
+      "company": "Scribd",
+      "role": "Senior Software Engineer",
+      "location": "Vancouver, BC",
+      "start": "2025",
+      "end": "Present",
+      "summary": "AI-augmented engineering on a consumer reading platform.",
+      "bullets": [
+        "Lead SEO and AI-bot discoverability strategy: structured data, server-side rendering, and content surfaces tuned for both search engines and LLM-driven discovery.",
+        "Design per-PR preview environments with Google Cloud Build to accelerate review and reduce regressions reaching main.",
+        "Pioneer AI-assisted development workflows: Cursor agents that scope tickets into draft PRs and write test coverage; a Claude Code setup with codebase-specific skills and Mermaid-based AI memory orchestrated through a top-level orchestrator skill.",
+        "Ship experiments and fixes across a Ruby on Rails + React codebase as part of the broader product surface."
+      ],
+      "tech": [
+        "Ruby on Rails",
+        "React",
+        "TypeScript",
+        "Google Cloud Build",
+        "Cursor",
+        "Claude Code"
+      ]
+    },
+    {
+      "id": "experience-intuit",
+      "company": "Intuit",
+      "role": "Senior Frontend Software Engineer",
+      "location": "Vancouver, BC",
+      "start": "2022",
+      "end": "2025",
+      "summary": "Enterprise architecture at scale.",
+      "bullets": [
+        "Architected a complete frontend rewrite grounded in Single Responsibility, Separation of Concerns, and Loose Coupling principles.",
+        "Cut code duplication from 300+ files to ~20 with a reusable React widget scaffold, saving the team a week or more per feature shipped.",
+        "Owned an end-to-end Lead Capturing capability spanning Java Spring Boot and React, with Akamai for security and routing.",
+        "Drove platform-wide Core Web Vitals and accessibility improvements."
+      ],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Java Spring Boot",
+        "Akamai",
+        "Core Web Vitals",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "experience-unbounce",
+      "company": "Unbounce",
+      "role": "Senior → Staff Software Engineer",
+      "location": "Vancouver, BC",
+      "start": "2020",
+      "end": "2022",
+      "summary": "Frontend platform work — design systems and build tooling.",
+      "bullets": [
+        "Cut deployment times from 15 minutes to 3 by restructuring a monolithic repo into a Lerna-based packaging system.",
+        "Modernized a design system with Storybook and TypeScript adoption across consuming applications.",
+        "Prototyped a customizable page builder using CSS variables and CSS Grid template areas.",
+        "Promoted from Senior to Staff Software Engineer; mentored engineers through 1:1s and learning sessions."
+      ],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Lerna",
+        "Storybook",
+        "CSS Grid",
+        "Design Systems"
+      ]
+    },
+    {
+      "id": "experience-sycle",
+      "company": "Sycle",
+      "role": "Frontend Developer → Senior Full Stack Developer",
+      "location": "Vancouver, BC",
+      "start": "2016",
+      "end": "2020",
+      "summary": "Five years growing into a senior IC, owning the full product delivery lifecycle on a SaaS platform.",
+      "bullets": [
+        "Led the migration from AngularJS to React across the product.",
+        "Championed TypeScript adoption across the codebase.",
+        "Shipped custom D3 analytics dashboards that landed at industry conferences.",
+        "Partnered with database architects on MySQL query and API optimizations.",
+        "Helped establish coding standards that outlived my tenure."
+      ],
+      "tech": [
+        "React",
+        "TypeScript",
+        "AngularJS",
+        "D3",
+        "MySQL",
+        "Node.js"
+      ]
+    },
+    {
+      "id": "experience-thrinacia",
+      "company": "Thrinacia Software Solutions",
+      "role": "Software Developer",
+      "location": "Vancouver, BC",
+      "start": "2015",
+      "end": "2016",
+      "summary": "First software developer role — building front-end for crowdfunding platforms.",
+      "bullets": [
+        "Built responsive AngularJS components and crowdfunding campaign pages with Semantic UI and Bootstrap.",
+        "Short chapter, but where frontend really clicked: the immediacy of UI work, the breadth of the open web, the tight feedback loop set the direction for everything that followed."
+      ],
+      "tech": ["AngularJS", "Semantic UI", "Bootstrap", "JavaScript"]
+    }
+  ],
+  "education": [
+    {
+      "id": "education-douglas",
+      "school": "Douglas College",
+      "credential": "Post Graduate Diploma in Computer Science",
+      "location": "Vancouver, BC",
+      "start": "2014",
+      "end": "2015"
+    }
+  ],
+  "skills": [
+    {
+      "id": "skills-languages",
+      "label": "Languages",
+      "items": ["TypeScript", "JavaScript", "Python", "Ruby", "Java"]
+    },
+    {
+      "id": "skills-frameworks",
+      "label": "Frameworks & Runtimes",
+      "items": [
+        "React",
+        "Next.js",
+        "Node.js",
+        "Ruby on Rails",
+        "Java Spring Boot",
+        "React Three Fiber",
+        "Three.js"
+      ]
+    },
+    {
+      "id": "skills-frontend",
+      "label": "Frontend Architecture",
+      "items": [
+        "Design Systems",
+        "Storybook",
+        "Tailwind CSS",
+        "CSS Grid",
+        "Framer Motion",
+        "Performance Optimization",
+        "Core Web Vitals",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "skills-tooling",
+      "label": "Tooling & Infra",
+      "items": [
+        "Lerna",
+        "Vite",
+        "Webpack",
+        "Google Cloud Build",
+        "Akamai",
+        "MySQL",
+        "D3"
+      ]
+    },
+    {
+      "id": "skills-ai",
+      "label": "AI-Assisted Development",
+      "items": [
+        "Claude Code",
+        "Cursor",
+        "Anthropic SDK",
+        "Prompt Engineering",
+        "Mermaid-based AI Memory",
+        "Agent Orchestration"
+      ]
+    }
+  ]
+}
