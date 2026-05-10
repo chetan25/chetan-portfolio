@@ -1,7 +1,14 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { getResumeVisits } from '@/lib/visitCounter'
 
 const PAGE_DESCRIPTION = 'Reach out via email, GitHub, or LinkedIn.'
+
+// Force per-request rendering so the resume read-count chip stays fresh.
+// Cost is negligible — the page is otherwise just a static channel list.
+export const revalidate = 0
+
+const VISIT_FORMATTER = new Intl.NumberFormat('en-US')
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -17,8 +24,6 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
   },
 }
-
-const RESUME_FILE = '/Chetan_Dasauni_Resume_2026.docx'
 
 const CHANNELS = [
   {
@@ -44,14 +49,16 @@ const CHANNELS = [
   },
   {
     label: 'Resume',
-    value: 'Chetan_Dasauni_Resume_2026.docx',
-    href: RESUME_FILE,
-    note: 'Download the latest CV (DOCX)',
-    download: true,
+    value: 'Read the latest CV',
+    href: '/resume',
+    note: 'Web view with .docx download on the page',
+    download: false,
   },
 ] as const
 
-export default function Contact() {
+export default async function Contact() {
+  const visits = await getResumeVisits()
+
   return (
     <main id="main" className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
       <div className="mx-auto max-w-6xl">
@@ -120,12 +127,25 @@ export default function Contact() {
                       {c.note}
                     </span>
                   </div>
-                  <span
-                    aria-hidden
-                    className="hidden font-mono text-[12px] text-zinc-600 transition-all duration-300 ease-[var(--ease-premium)] group-hover:translate-x-1 group-hover:text-zinc-300 sm:inline"
-                  >
-                    &rarr;
-                  </span>
+                  {c.label === 'Resume' && visits !== null ? (
+                    <span
+                      aria-label={`${VISIT_FORMATTER.format(visits)} reads`}
+                      className="inline-flex items-center gap-1.5 self-center justify-self-start rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400 transition-colors duration-300 ease-[var(--ease-premium)] group-hover:border-white/20 group-hover:text-zinc-200 sm:justify-self-end"
+                    >
+                      <span
+                        aria-hidden
+                        className="h-1.5 w-1.5 rounded-full bg-emerald-400/80"
+                      />
+                      {VISIT_FORMATTER.format(visits)} reads
+                    </span>
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="hidden font-mono text-[12px] text-zinc-600 transition-all duration-300 ease-[var(--ease-premium)] group-hover:translate-x-1 group-hover:text-zinc-300 sm:inline"
+                    >
+                      &rarr;
+                    </span>
+                  )}
                 </a>
               </li>
             ))}
