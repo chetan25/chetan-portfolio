@@ -124,10 +124,10 @@ export default function Hero() {
         ]}
       />
 
-      <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1400px] flex-col justify-center gap-y-6 px-8 pb-10 pt-16 sm:justify-between sm:gap-y-0 sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
+      <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1400px] flex-col justify-center gap-y-6 px-8 pb-28 pt-10 sm:justify-between sm:gap-y-0 sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
         <div className="pointer-events-auto max-w-2xl text-center sm:text-left">
-          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-zinc-500 sm:text-[11px]">
-            Senior Software Engineer · Vancouver
+          <p className="hidden font-mono uppercase tracking-[0.32em] text-zinc-500 sm:block sm:text-[11px]">
+            Senior Software Engineer
           </p>
           <h1 className="mt-5 sr-only">Chetan Dasauni</h1>
           {/* DOM headline kept invisible (layout-only) so the echo clouds
@@ -168,14 +168,23 @@ export default function Hero() {
               </span>
             </Link>
             <Link
+              href="/journey"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3.5 text-[14px] font-medium tracking-wide text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md transition-[background-color,transform] duration-300 ease-[var(--ease-premium)] hover:bg-white/[0.08] active:scale-[0.98] sm:hidden"
+            >
+              Take the immersive journey
+              <span aria-hidden className="text-[15px]">
+                &rarr;
+              </span>
+            </Link>
+            <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3.5 text-[14px] font-medium tracking-wide text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md transition-[background-color,transform] duration-300 ease-[var(--ease-premium)] hover:bg-white/[0.08] active:scale-[0.98] sm:px-5 sm:py-2.5 sm:text-[13px]"
+              className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3.5 text-[14px] font-medium tracking-wide text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md transition-[background-color,transform] duration-300 ease-[var(--ease-premium)] hover:bg-white/[0.08] active:scale-[0.98] sm:inline-flex sm:px-5 sm:py-2.5 sm:text-[13px]"
             >
               Get in touch
             </Link>
             <Link
               href="/journey"
-              className="group mt-1 inline-flex items-center gap-1.5 px-1 py-2 text-[13px] tracking-wide text-zinc-500 transition-colors duration-300 ease-[var(--ease-premium)] hover:text-zinc-200 sm:ml-1 sm:mt-0 sm:px-2 sm:text-[12px]"
+              className="group mt-1 hidden items-center gap-1.5 px-1 py-2 text-[13px] tracking-wide text-zinc-500 transition-colors duration-300 ease-[var(--ease-premium)] hover:text-zinc-200 sm:ml-1 sm:mt-0 sm:inline-flex sm:px-2 sm:text-[12px]"
             >
               Or take the immersive journey
               <span
