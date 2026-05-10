@@ -28,8 +28,8 @@ A personal portfolio for a Senior Software Engineer, built as an interactive 3D 
 | `/`         | Server shell + client island        | Kinetic-name hero. The name "Chetan Dasauni" is rendered as a Three.js point-cloud echo, scrambled in then resolved. DOM headline is layout-only — the 3D cloud carries the visual. |
 | `/journey`  | Client                              | An immersive 3D corridor walk through the chapters of a career. Character animation, milestone signs alternating left/right, typewriter description cards, end-of-journey CTA.      |
 | `/projects` | Server (data fetch) + client island | Live GitHub archive. Server Component fetches public repos, Client Component renders a searchable, filterable list. Shows month + year.                                             |
-| `/resume`   | Server                              | Editorial render of `src/data/resume.json` — header, summary, experience, education, skills. Each entry has a stable anchor ID (e.g. `#experience-scribd`) used as a citation deep-link target by the chatbot. `.docx` download still available. |
-| `/contact`  | Server                              | Editorial channel list (email, GitHub, LinkedIn, resume download).                                                                                                                  |
+| `/resume`   | Server (`revalidate=0`)             | Editorial render of `src/data/resume.json` — header, summary, experience, education, skills. Each entry has a stable anchor ID (e.g. `#experience-scribd`) used as a citation deep-link target by the chatbot. `.docx` download still available. Header meta-row also shows a live "X reads" chip (Upstash Redis counter, deduped per browser by 1-year cookie). |
+| `/contact`  | Server (`revalidate=0`)             | Editorial channel list (email, GitHub, LinkedIn, resume). The Resume row now links to `/resume` (the .docx download is one click further in) and shows the same read-count chip — surfaces the resume route without exposing it in the nav.    |
 
 ---
 
@@ -143,12 +143,72 @@ Mixamo clips have their `Hips.position` track stripped on import — otherwise t
 ## Scripts
 
 ```bash
-pnpm dev          # Next dev server with Turbopack
-pnpm build        # Production build
-pnpm start        # Serve the production build
-pnpm lint         # ESLint via next lint
-pnpm type-check   # tsc --noEmit
+pnpm dev            # Next dev server with Turbopack
+pnpm build          # Production build (runs `prebuild` → build:chat-context first)
+pnpm start          # Serve the production build
+pnpm lint           # ESLint via next lint
+pnpm type-check     # tsc --noEmit
+pnpm sync:resume    # Regenerate src/data/resume.json from public/<resume>.docx (see below)
+pnpm prepare        # Installs husky git hooks (auto-runs after pnpm install)
 ```
+
+---
+
+## Resume content workflow
+
+`src/data/resume.json` is the canonical source for everything resume-related: the `/resume` page render, the `/contact` Resume row, and the chatbot's citation corpus (`pnpm build:chat-context` reads it on every Vercel build). The `.docx` in `public/` is the downloadable artifact.
+
+To keep them in sync without rewriting JSON by hand, this repo ships a one-command sync plus a pre-commit gate that blocks drift.
+
+### The sync command
+
+```bash
+pnpm sync:resume
+```
+
+Pipeline (`scripts/sync-resume-json.ts`):
+
+1. Reads `public/Chetan_Dasauni_Resume_2026.docx` and extracts raw text via `mammoth`.
+2. Reads the current `src/data/resume.json` so Claude can preserve stable IDs (`experience-scribd`, etc.) — those IDs double as DOM anchors and chat-citation keys, breaking them would invalidate every chat answer that deep-links into the resume.
+3. Sends both to Claude (Sonnet 4.6, matching `src/app/api/chat/route.ts`) with the `Resume` schema and instructions.
+4. Validates the response shape (top-level fields present, arrays are arrays) before writing.
+5. Pretty-prints back to `src/data/resume.json` for review via `git diff`.
+
+Requires `ANTHROPIC_API_KEY` in `.env.local` — same env var the chat already uses. Runs in ~5 seconds; cost is roughly a tenth of a cent per invocation.
+
+### The pre-commit gate
+
+`.husky/pre-commit` runs `scripts/check-resume-sync.mjs`, which inspects `git diff --cached`. If a `resume*.docx` is staged but `src/data/resume.json` is **not**, the commit is blocked with:
+
+```
+Resume .docx is staged but src/data/resume.json is not.
+These need to stay in sync — the JSON drives /resume rendering
+and the chat citation corpus.
+
+Run:
+    pnpm sync:resume
+
+Then `git add src/data/resume.json` and commit again.
+```
+
+The gate is intentionally one-directional — JSON-only changes (typo fixes, minor wording) commit freely without forcing a `.docx` re-upload.
+
+### Typical flow
+
+```bash
+# 1. Replace the .docx in public/
+git add public/Chetan_Dasauni_Resume_2026.docx
+git commit -m "chore: refresh resume to 2026-Q2"
+#   ↳ blocked: pnpm sync:resume
+
+pnpm sync:resume
+git diff src/data/resume.json   # review what Claude changed
+git add src/data/resume.json
+git commit -m "chore: refresh resume to 2026-Q2"
+#   ↳ passes; next Vercel build regenerates the chat corpus too
+```
+
+To bypass the hook for a legitimate reason (e.g. you intentionally want only the .docx and JSON-as-truth flips temporarily): `git commit --no-verify`. Avoid otherwise — the JSON drift is silent until somebody asks the chatbot a question and gets a stale answer.
 
 ---
 
