@@ -1,8 +1,21 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Contact — Chetan Dasauni',
-  description: 'Reach out via email, GitHub, or LinkedIn.',
+const PAGE_DESCRIPTION = 'Reach out via email, GitHub, or LinkedIn.'
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: '/contact' },
+  openGraph: {
+    title: 'Contact — Chetan Dasauni',
+    description: PAGE_DESCRIPTION,
+    url: '/contact',
+  },
+  twitter: {
+    title: 'Contact — Chetan Dasauni',
+    description: PAGE_DESCRIPTION,
+  },
 }
 
 const RESUME_FILE = '/Chetan_Dasauni_Resume_2026.docx'
@@ -40,7 +53,7 @@ const CHANNELS = [
 
 export default function Contact() {
   return (
-    <main className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
+    <main id="main" className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
       <div className="mx-auto max-w-6xl">
         <header className="max-w-2xl">
           <p
@@ -66,16 +79,19 @@ export default function Contact() {
         </header>
 
         <section
-          aria-label="Channels"
+          aria-labelledby="contact-channels-heading"
           className="mt-16 sm:mt-16 lg:mt-20"
         >
           <div
             className="animate-reveal-up flex items-center gap-3"
             style={{ animationDelay: '300ms' }}
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-zinc-500 sm:text-[10px] sm:text-zinc-600">
+            <h2
+              id="contact-channels-heading"
+              className="font-mono text-[11px] font-normal uppercase tracking-[0.28em] text-zinc-500 sm:text-[10px] sm:text-zinc-600"
+            >
               Channels
-            </span>
+            </h2>
             <span className="h-px flex-1 bg-gradient-to-r from-white/10 via-white/[0.04] to-transparent" />
           </div>
 

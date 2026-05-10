@@ -227,10 +227,19 @@ export default function CorridorCharacter({
     pos.addScaledVector(moveDir.current, step)
     characterPositionRef.current.copy(pos)
 
+    // Lerp via shortest arc, not raw value. Otherwise: when the previous idle
+    // target was a "+2π equivalent of 0" (which can happen on the last stage
+    // because shortestArc(walkRotY, 0) returns +π for any walkRotY slightly
+    // above π — going CCW past 2π is numerically shorter), `rotation.y`
+    // settles at ~2π. A raw lerp toward 0 from 2π then unwinds linearly —
+    // visually a full 360° spin before walking. shortestArc keeps every step
+    // within ±π of the current rotation.
     const targetRotY = Math.atan2(moveDir.current.x, moveDir.current.z)
+    const currentRotY = group.current.rotation.y
+    const arc = shortestArc(currentRotY, targetRotY)
     group.current.rotation.y = THREE.MathUtils.lerp(
-      group.current.rotation.y,
-      targetRotY,
+      currentRotY,
+      currentRotY + arc,
       delta * 6
     )
   })

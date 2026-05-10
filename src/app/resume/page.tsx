@@ -1,12 +1,32 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import resumeData from '@/data/resume.json'
 import type { Resume } from '@/types/resume'
+import { getResumeVisits } from '@/lib/visitCounter'
+import RecordVisit from './RecordVisit'
 
 const resume = resumeData as Resume
 
-export const metadata = {
-  title: `Resume — ${resume.meta.name}`,
+// Force per-request rendering so the visit count is fresh on every load.
+// The page is otherwise tiny (a JSON import + a counter read), so the cost
+// of opting out of static rendering is negligible.
+export const revalidate = 0
+
+const VISIT_FORMATTER = new Intl.NumberFormat('en-US')
+
+export const metadata: Metadata = {
+  title: 'Resume',
   description: resume.summary,
+  alternates: { canonical: '/resume' },
+  openGraph: {
+    title: `Resume — ${resume.meta.name}`,
+    description: resume.summary,
+    url: '/resume',
+  },
+  twitter: {
+    title: `Resume — ${resume.meta.name}`,
+    description: resume.summary,
+  },
 }
 
 const META_LINKS: { label: string; href: string; external: boolean }[] = [
@@ -25,9 +45,11 @@ function formatRange(start: string, end: string): string {
   return `${start} — ${end}`
 }
 
-export default function ResumePage() {
+export default async function ResumePage() {
+  const visits = await getResumeVisits()
+
   return (
-    <main className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
+    <main id="main" className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
       <div className="mx-auto max-w-4xl">
         <header>
           <p
@@ -88,6 +110,20 @@ export default function ResumePage() {
                 .docx
               </a>
             </li>
+            {visits !== null && (
+              <li>
+                <span
+                  aria-label={`${VISIT_FORMATTER.format(visits)} reads`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-400"
+                >
+                  <span
+                    aria-hidden
+                    className="h-1.5 w-1.5 rounded-full bg-emerald-400/80"
+                  />
+                  {VISIT_FORMATTER.format(visits)} reads
+                </span>
+              </li>
+            )}
           </ul>
         </header>
 
@@ -219,6 +255,7 @@ export default function ResumePage() {
           .
         </p>
       </div>
+      <RecordVisit />
     </main>
   )
 }

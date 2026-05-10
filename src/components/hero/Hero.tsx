@@ -20,6 +20,7 @@
 import HeroClient from '@/components/3d/HeroClient'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import YearsMarquee from '@/components/ui/YearsMarquee'
 import KineticName from './KineticName'
 
@@ -93,35 +94,45 @@ function useEchoScale(): number {
 
 export default function Hero() {
   const echoScale = useEchoScale()
+  const prefersReducedMotion = useReducedMotion()
 
   // Bio + CTAs hold at opacity 0 until both echoes have settled, then fade
   // in over ~700ms. Using setTimeout instead of CSS animation-delay so the
   // transition only kicks off once on mount (HMR re-renders don't restart).
+  // Reduced-motion path skips the wait — content is revealed on first paint.
   const [contentRevealed, setContentRevealed] = useState(false)
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setContentRevealed(true)
+      return
+    }
     const t = setTimeout(() => setContentRevealed(true), ECHO_FULLY_SETTLED_MS)
     return () => clearTimeout(t)
-  }, [])
+  }, [prefersReducedMotion])
 
   return (
     <div className="relative min-h-[100dvh] w-full overflow-hidden bg-zinc-950">
       <HeroClient
-        echoConfigs={[
-          {
-            ...SHARED_ECHO_VISUALS,
-            scaleXY: echoScale,
-            lines: CHETAN_LINES,
-            alignToSelector: '[data-name-line="chetan"]',
-            startDelayMs: CHETAN_ECHO_DELAY_MS,
-          },
-          {
-            ...SHARED_ECHO_VISUALS,
-            scaleXY: echoScale,
-            lines: DASAUNI_LINES,
-            alignToSelector: '[data-name-line="dasauni"]',
-            startDelayMs: DASAUNI_ECHO_DELAY_MS,
-          },
-        ]}
+        echoConfigs={
+          prefersReducedMotion
+            ? []
+            : [
+                {
+                  ...SHARED_ECHO_VISUALS,
+                  scaleXY: echoScale,
+                  lines: CHETAN_LINES,
+                  alignToSelector: '[data-name-line="chetan"]',
+                  startDelayMs: CHETAN_ECHO_DELAY_MS,
+                },
+                {
+                  ...SHARED_ECHO_VISUALS,
+                  scaleXY: echoScale,
+                  lines: DASAUNI_LINES,
+                  alignToSelector: '[data-name-line="dasauni"]',
+                  startDelayMs: DASAUNI_ECHO_DELAY_MS,
+                },
+              ]
+        }
       />
 
       <div className="pointer-events-none relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1400px] flex-col justify-center gap-y-6 px-8 pb-28 pt-10 sm:justify-between sm:gap-y-0 sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
@@ -129,21 +140,33 @@ export default function Hero() {
           <p className="hidden font-mono uppercase tracking-[0.32em] text-zinc-500 sm:block sm:text-[11px]">
             Senior Software Engineer
           </p>
-          <h1 className="mt-5 sr-only">Chetan Dasauni</h1>
-          {/* DOM headline kept invisible (layout-only) so the echo clouds
-              have responsive bbox anchors but no visible 2D text competes
-              with the point-cloud headline. */}
-          <div
-            className="invisible mt-8 mb-4 space-y-4 sm:mt-12 sm:mb-12 sm:space-y-8 lg:mt-14 lg:mb-14 lg:space-y-14"
-            aria-hidden
-          >
-            <div data-name-line="chetan">
-              <KineticName lines={CHETAN_LINES} {...SHARED_KINETIC_PROPS} />
-            </div>
-            <div data-name-line="dasauni">
-              <KineticName lines={DASAUNI_LINES} {...SHARED_KINETIC_PROPS} />
-            </div>
-          </div>
+          {prefersReducedMotion ? (
+            // Reduced-motion path: skip the kinetic + echo entirely and render
+            // a calm static headline so vestibular-sensitive users see the
+            // name on first paint instead of a 2.5s scramble.
+            <h1 className="mt-8 text-[64px] font-extrabold leading-[0.92] tracking-tighter text-zinc-50 sm:mt-12 sm:text-[96px] lg:mt-14 lg:text-[112px]">
+              <span className="block">Chetan</span>
+              <span className="block text-zinc-300">Dasauni</span>
+            </h1>
+          ) : (
+            <>
+              <h1 className="mt-5 sr-only">Chetan Dasauni</h1>
+              {/* DOM headline kept invisible (layout-only) so the echo clouds
+                  have responsive bbox anchors but no visible 2D text competes
+                  with the point-cloud headline. */}
+              <div
+                className="invisible mt-8 mb-4 space-y-4 sm:mt-12 sm:mb-12 sm:space-y-8 lg:mt-14 lg:mb-14 lg:space-y-14"
+                aria-hidden
+              >
+                <div data-name-line="chetan">
+                  <KineticName lines={CHETAN_LINES} {...SHARED_KINETIC_PROPS} />
+                </div>
+                <div data-name-line="dasauni">
+                  <KineticName lines={DASAUNI_LINES} {...SHARED_KINETIC_PROPS} />
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div

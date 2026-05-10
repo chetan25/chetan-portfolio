@@ -17,6 +17,7 @@
     "@react-three/drei": "^10",
     "@react-three/fiber": "^9",
     "@react-three/postprocessing": "^3",
+    "@upstash/redis": "^1.38.0",
     "framer-motion": "^12",
     "gray-matter": "^4.0.3",
     "next": "^15",

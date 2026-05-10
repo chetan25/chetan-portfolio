@@ -1,20 +1,33 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
+import type { Metadata } from 'next'
 import { getRepos, type RepoEntry } from '@/lib/github'
 import RepoList from '@/components/projects/RepoList'
 import ProjectsSkeleton from '@/components/projects/ProjectsSkeleton'
 
-export const metadata = {
-  title: 'Projects — Chetan Dasauni',
-  description:
-    'Every public repository — explorations, experiments, and shipped work.',
+const PAGE_DESCRIPTION =
+  'Every public repository — explorations, experiments, and shipped work.'
+
+export const metadata: Metadata = {
+  title: 'Projects',
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: '/projects' },
+  openGraph: {
+    title: 'Projects — Chetan Dasauni',
+    description: PAGE_DESCRIPTION,
+    url: '/projects',
+  },
+  twitter: {
+    title: 'Projects — Chetan Dasauni',
+    description: PAGE_DESCRIPTION,
+  },
 }
 
 export const revalidate = 3600
 
 export default function ProjectsPage() {
   return (
-    <main className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
+    <main id="main" className="relative min-h-[100dvh] w-full px-6 pb-28 pt-28 sm:px-10 sm:pt-32 lg:px-16">
       <div className="mx-auto max-w-6xl">
         <Suspense fallback={<LoadingShell />}>
           <ResolvedShell />

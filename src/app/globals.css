@@ -20,6 +20,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Visible keyboard focus on the dark theme. The default browser ring is
+     thin and low-contrast against zinc-950; this gives a soft white halo
+     plus a small offset so it reads on rounded buttons and pills without
+     clipping. Pointer/touch focus stays clean (no :focus-visible match). */
+  :focus-visible {
+    outline: 2px solid rgba(250, 250, 250, 0.85);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
 @layer utilities {

@@ -47,11 +47,14 @@ export default function RepoList({ repos }: RepoListProps) {
   const isFiltering = trimmed.length > 0
 
   return (
-    <section className="mt-16 sm:mt-20">
+    <section aria-labelledby="projects-archive-heading" className="mt-16 sm:mt-20">
       <div className="flex items-center gap-3">
-        <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+        <h2
+          id="projects-archive-heading"
+          className="font-mono text-[11px] font-normal uppercase tracking-[0.32em] text-zinc-500"
+        >
           Archive
-        </span>
+        </h2>
         <span aria-hidden className="text-zinc-700">
           &#x2726;
         </span>
