@@ -8,9 +8,22 @@ let cachedClient: Redis | null = null
 
 function getClient(): Redis | null {
   if (cachedClient) return cachedClient
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
-  if (!url || !token) return null
+  // Support both env-var conventions:
+  //   - UPSTASH_REDIS_REST_* — Upstash marketplace integration on Vercel
+  //   - KV_REST_API_*        — legacy Vercel KV integration
+  // Both point at the same Upstash backend.
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
+  if (!url || !token) {
+    if (process.env.NODE_ENV !== 'test') {
+      console.warn(
+        '[visitCounter] Redis not configured — set UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL + KV_REST_API_TOKEN). Counter chip is hidden until then.'
+      )
+    }
+    return null
+  }
   cachedClient = new Redis({ url, token })
   return cachedClient
 }

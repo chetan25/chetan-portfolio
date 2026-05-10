@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 import Nav from '@/components/ui/Nav'
 import ChatLauncher from '@/components/chat/ChatLauncher'
 import './globals.css'
@@ -92,6 +93,7 @@ export default function RootLayout({
         <Nav />
         {children}
         <ChatLauncher />
+        <Analytics />
         {/* Static Schema.org Person markup. Content is hardcoded above —
             no user input flows into the script body, so the JSON-string
             embedding is safe by construction. */}
